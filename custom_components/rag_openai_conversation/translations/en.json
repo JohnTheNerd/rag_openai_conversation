@@ -101,7 +101,10 @@
                     "temperature": "Temperature",
                     "top_p": "Top P",
                     "enable_rag": "Enable RAG",
-                    "rag_refresh_interval": "Embedding refresh interval (in minutes)"
+                    "rag_refresh_interval": "Embedding refresh interval (in minutes)",
+                    "rag_top_n": "How many RAG to inject",
+                    "fuzzy_top_n": "How many fuzzy search results to inject",
+                    "max_messages": "Maximum number of messages to keep in context"
 
                 },
                 "data_description": {
