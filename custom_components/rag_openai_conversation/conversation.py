@@ -711,7 +711,7 @@ class OpenAIConversationEntity(
         area_devices = {
             device.id
             for device in device_registry.devices.values()
-            if device.area_id == area.id
+            if hasattr(device, "id") and device.area_id == area.id
         }
 
         states = [
@@ -723,7 +723,7 @@ class OpenAIConversationEntity(
         for state in states:
             entity_id = state.entity_id
             entity = entity_registry.async_get(entity_id)
-            if entity.device_id in area_devices:
+            if hasattr(entity, "device_id") and entity.device_id in area_devices:
                 area_entities.append(entity)
 
         interesting_domains = [
@@ -1058,7 +1058,7 @@ class OpenAIConversationEntity(
                 + state.attributes.get("unit_of_measurement", ""),
                 "aliases": aliases,
                 "last_updated": state.last_updated,
-                "device_id": entity.device_id,
+                "device_id": entity.device_id if hasattr(entity, "device_id") else None,
             }
 
             if (
@@ -1149,14 +1149,17 @@ class OpenAIConversationEntity(
             area_devices = [
                 device.id
                 for device in device_registry.devices.values()
-                if device.area_id == area.id
+                if hasattr(device, "id") and device.area_id == area.id
             ]
             area_entities = []
             for device_id in area_devices:
                 device = device_registry.async_get(device_id)
                 if device:
                     for exposed_entity in exposed_entities:
-                        if exposed_entity["device_id"] == device.id:
+                        if (
+                            hasattr(device, "id")
+                            and exposed_entity["device_id"] == device.id
+                        ):
                             area_entities.append(exposed_entity)
                             entities_with_areas.add(exposed_entity["entity_id"])
             area_entities = sorted(
@@ -1352,7 +1355,7 @@ Entities that do not have an area:
 
             # Log the top documents for debugging purposes
             for i, doc in enumerate(selected_documents, start=1):
-                LOGGER.info(
+                LOGGER.debug(
                     f"Top {i} Document: {doc['description']} (Similarity: {doc['similarity']}): {doc['prompt_template']}"
                 )
 
@@ -1372,7 +1375,7 @@ Entities that do not have an area:
             )
 
             for match in top_fuzzy_matches:
-                LOGGER.info(f"Fuzzy match: {match[0]} (Score: {match[1]})")
+                LOGGER.debug(f"Fuzzy match: {match[0]} (Score: {match[1]})")
                 for document in documents:
                     if document["description"] == match[0]:
                         for selected_document in selected_documents:
@@ -1414,7 +1417,7 @@ Entities that do not have an area:
             )
 
             for match in top_fuzzy_matches:
-                LOGGER.info(f"Fuzzy match: {match[0]} (Score: {match[1]})")
+                LOGGER.debug(f"Fuzzy match: {match[0]} (Score: {match[1]})")
                 for example in examples:
                     if example["question"] == match[0]:
                         for selected_example in selected_examples:
@@ -1439,7 +1442,7 @@ Entities that do not have an area:
 
             # Log the top examples for debugging purposes
             for i, example in enumerate(selected_examples, start=1):
-                LOGGER.info(
+                LOGGER.debug(
                     f"Top {i} Example: {example['text']} (Similarity: {example['similarity']})"
                 )
 
@@ -1468,7 +1471,7 @@ Entities that do not have an area:
                 + current_time_prompt
             )
 
-        LOGGER.info(messages[0]["content"])
+        LOGGER.debug(messages[0]["content"])
 
         # To prevent infinite loops, we limit the number of iterations
         for _iteration in range(MAX_TOOL_ITERATIONS):
