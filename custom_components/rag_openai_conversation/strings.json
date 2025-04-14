@@ -1,0 +1,166 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "api_key": "[%key:common::config_flow::data::api_key%]",
+          "llm_base_url": "API base URL for LLM (leave blank for OpenAI)",
+          "llm_api_key": "API key for LLM",
+          "embedding_base_url": "API base URL for embeddings (leave blank for OpenAI)",
+          "embedding_api_key": "API key for embeddings"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "unknown": "[%key:common::config_flow::error::unknown%]"
+    }
+  },
+  "config_subentries": {
+    "document": {
+      "title": "Document",
+      "step": {
+        "user": {
+          "title": "Add Document",
+          "description": "Create a new document for RAG",
+          "data": {
+            "title": "Title",
+            "description": "Description (can be a template)",
+            "prompt": "LLM prompt to use"
+          }
+        },
+        "reconfigure": {
+          "title": "Edit Document",
+          "description": "Modify existing RAG document",
+          "data": {
+            "title": "Title",
+            "description": "Description (can be a template)",
+            "prompt": "LLM prompt to use"
+          }
+        }
+      },
+      "error": {},
+      "abort": {}
+    },
+    "example": {
+        "title": "Few-shot Example",
+        "step": {
+          "user": {
+            "title": "Add Example",
+            "description": "Create a new example for in-context learning",
+            "data": {
+              "title": "Title",
+              "domain": "Entity domain",
+              "question": "Example question",
+              "tool_call": "Tool to call",
+              "tool_call_args": "Tool arguments (as a JSON dictionary)",
+              "answer": "Answer"
+            }
+          },
+          "reconfigure": {
+            "title": "Edit Example",
+            "description": "Modify existing in-context learning example",
+            "data": {
+              "title": "Title",
+              "domain": "Entity domain",
+              "question": "Example question",
+              "tool_call": "Tool to call",
+              "tool_call_args": "Tool arguments (as a JSON dictionary)",
+              "answer": "Answer"
+            }
+          }
+        }
+      }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "prompt": "System Prompt",
+          "enable_rag": "Enable RAG",
+          "chat_model": "[%key:common::generic::model%]",
+          "embedding_model": "Embedding Model",
+          "max_tokens": "Maximum tokens to return in response",
+          "temperature": "Temperature",
+          "top_p": "Top P",
+          "llm_hass_api": "[%key:common::config_flow::data::llm_hass_api%]",
+          "recommended": "Recommended model settings",
+          "reasoning_effort": "Reasoning effort",
+          "rag_refresh_interval": "Embedding refresh interval (in minutes)",
+          "rag_top_n": "Top N for RAG",
+          "fuzzy_top_n": "Top N for fuzzy search",
+          "max_messages": "Maximum number of messages to keep in context"
+        },
+        "data_description": {
+          "prompt": "Instruct how the LLM should respond. This can be a template.",
+          "reasoning_effort": "How many reasoning tokens the model should generate before creating a response to the prompt (for certain reasoning models)"
+        }
+      }
+    },
+    "error": {
+      "model_not_supported": "This model is not supported, please select a different model"
+    }
+  },
+  "selector": {
+    "reasoning_effort": {
+      "options": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    }
+  },
+  "services": {
+    "generate_image": {
+      "name": "Generate image",
+      "description": "Turns a prompt into an image",
+      "fields": {
+        "config_entry": {
+          "name": "Config entry",
+          "description": "The config entry to use for this action"
+        },
+        "prompt": {
+          "name": "Prompt",
+          "description": "The text to turn into an image",
+          "example": "A photo of a dog"
+        },
+        "size": {
+          "name": "Size",
+          "description": "The size of the image to generate"
+        },
+        "quality": {
+          "name": "Quality",
+          "description": "The quality of the image that will be generated"
+        },
+        "style": {
+          "name": "Style",
+          "description": "The style of the generated image"
+        }
+      }
+    },
+    "generate_content": {
+      "name": "Generate content",
+      "description": "Sends a conversational query to ChatGPT including any attached image files",
+      "fields": {
+        "config_entry": {
+          "name": "Config entry",
+          "description": "The config entry to use for this action"
+        },
+        "prompt": {
+          "name": "Prompt",
+          "description": "The prompt to send"
+        },
+        "filenames": {
+          "name": "Files",
+          "description": "List of files to upload"
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_config_entry": {
+      "message": "Invalid config entry provided. Got {config_entry}"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "domain": "rag_openai_conversation",
+  "name": "RAG OpenAI Conversation",
+  "after_dependencies": ["assist_pipeline", "intent"],
+  "codeowners": [
+    "@JohnTheNerd"
+  ],
+  "config_flow": true,
+  "dependencies": ["conversation"],
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "requirements": ["openai==1.68.2", "numpy>=2.0.0", "thefuzz>=0.22.1"],
+  "version": "0.0.1"
+}

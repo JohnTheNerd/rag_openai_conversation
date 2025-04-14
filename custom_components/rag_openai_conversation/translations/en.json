@@ -1,0 +1,152 @@
+{
+    "config": {
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "API key",
+                    "llm_base_url": "API base URL for LLM (leave blank for OpenAI)",
+                    "llm_api_key": "API key for LLM",
+                    "embedding_base_url": "API base URL for embeddings (leave blank for OpenAI)",
+                    "embedding_api_key": "API key for embeddings"
+                }
+            }
+        }
+    },
+    "config_subentries": {
+        "document": {
+          "entry_type": "Document",
+          "initiate_flow": {
+            "user": "New Document"
+          },
+          "title": "Document",
+          "step": {
+            "user": {
+              "title": "Add Document",
+              "description": "Create a new document for RAG",
+              "data": {
+                "title": "Title",
+                "description": "Description to vectorize",
+                "prompt": "Injected prompt template"
+              }
+            },
+            "reconfigure": {
+              "title": "Edit Document",
+              "description": "Modify existing document",
+              "data": {
+                "title": "Title",
+                "description": "Description to vectorize",
+                "prompt": "Injected prompt template"
+              }
+            }
+          }
+        },
+        "example": {
+            "entry_type": "Few-shot example",
+            "initiate_flow": {
+                "user": "New few-shot example"
+            },
+            "title": "Few-shot Example",
+            "step": {
+              "user": {
+                "title": "Add Example",
+                "description": "Create a new example for in-context learning",
+                "data": {
+                  "title": "Title",
+                  "domain": "Entity domain",
+                  "question": "Example question",
+                  "tool_call": "Tool to call",
+                  "tool_call_args": "Tool arguments (as a JSON dictionary)",
+                  "answer": "Answer"
+                }
+              },
+              "reconfigure": {
+                "title": "Edit Example",
+                "description": "Modify existing in-context learning example",
+                "data": {
+                  "title": "Title",
+                  "domain": "Entity domain",
+                  "question": "Example question",
+                  "tool_call": "Tool to call",
+                  "tool_call_args": "Tool arguments (as a JSON dictionary)",
+                  "answer": "Answer"
+                }
+              }
+            }
+          }
+      },
+    "exceptions": {
+        "invalid_config_entry": {
+            "message": "Invalid config entry provided. Got {config_entry}"
+        }
+    },
+    "options": {
+        "error": {
+            "model_not_supported": "This model is not supported, please select a different model"
+        },
+        "step": {
+            "init": {
+                "data": {
+                    "chat_model": "Chat Model",
+                    "embedding_model": "Embedding Model",
+                    "llm_hass_api": "Control Home Assistant",
+                    "max_tokens": "Maximum tokens to return in response",
+                    "prompt": "Instructions",
+                    "reasoning_effort": "Reasoning effort",
+                    "recommended": "Recommended model settings",
+                    "temperature": "Temperature",
+                    "top_p": "Top P",
+                    "enable_rag": "Enable RAG",
+                    "rag_refresh_interval": "Embedding refresh interval (in minutes)"
+
+                },
+                "data_description": {
+                    "prompt": "Instruct how the LLM should respond. This can be a template.",
+                    "reasoning_effort": "How many reasoning tokens the model should generate before creating a response to the prompt (for certain reasoning models)"
+                }
+            }
+        }
+    },
+    "selector": {
+        "reasoning_effort": {
+            "options": {
+                "high": "High",
+                "low": "Low",
+                "medium": "Medium"
+            }
+        }
+    },
+    "services": {
+        "generate_image": {
+            "description": "Turns a prompt into an image",
+            "fields": {
+                "config_entry": {
+                    "description": "The config entry to use for this action",
+                    "name": "Config entry"
+                },
+                "prompt": {
+                    "description": "The text to turn into an image",
+                    "example": "A photo of a dog",
+                    "name": "Prompt"
+                },
+                "quality": {
+                    "description": "The quality of the image that will be generated",
+                    "name": "Quality"
+                },
+                "size": {
+                    "description": "The size of the image to generate",
+                    "name": "Size"
+                },
+                "style": {
+                    "description": "The style of the generated image",
+                    "name": "Style"
+                }
+            },
+            "name": "Generate image"
+        }
+    }
+}
